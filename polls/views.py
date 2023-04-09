@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import Question
+from .models import Question, Choice
 
 
 def index(request):
@@ -15,3 +15,21 @@ def detail(request, question_id: int):
     return render(request, 'polls/detail.html', context)
 
 
+def vote(request, question_id: int):
+    question = get_object_or_404(Question, id=question_id)
+    try:
+        selected_choice = question.choices.get(id=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'polls/detail.html', {
+            'error_message': "You didn't select a choice",
+            'question': question,
+        })
+    selected_choice.votes += 1
+    selected_choice.save()
+    return redirect('polls:results', question.id)
+
+
+def results(request, question_id: int):
+    question = get_object_or_404(Question, id=question_id)
+    context = {'question': question}
+    return render(request, 'polls/results.html', context)
