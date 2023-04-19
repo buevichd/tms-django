@@ -13,6 +13,8 @@ class Question(models.Model):
         ordering='pub_date'
     )
     def was_published_recently(self):
+        if not self.pub_date:
+            return False
         now = timezone.now()
         return now - timezone.timedelta(days=1) <= self.pub_date <= now
 
@@ -27,9 +29,3 @@ class Choice(models.Model):
 
     def __str__(self):
         return f'{self.question.question_text} : {self.choice_text}'
-
-    @admin.display(ordering='question__question_text', description='Question Text')
-    def get_question_text(self):
-        return self.question.question_text
-
-

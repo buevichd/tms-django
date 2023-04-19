@@ -21,6 +21,10 @@ class QuestionModelTests(TestCase):
         question = Question(pub_date=pub_date)
         self.assertFalse(question.was_published_recently())
 
+    def test_none_pub_date_do_not_raise_exception(self):
+        question = Question()
+        self.assertFalse(question.was_published_recently())
+
 
 def create_question(question_text, days):
     pub_date = timezone.now() + timezone.timedelta(days=days)
