@@ -1,0 +1,21 @@
+{% extends 'shop/base.html' %}
+
+{% block body %}
+    {% if not categories %}
+        <h1>There are no categories</h1>
+    {% else %}
+        <h1>Main page</h1>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="{% url 'shop:category_detail' category.id %}">{{ category.name }}</a>
+                    <ul>
+                        {% for product in category.products.all %}
+                            <li><a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
