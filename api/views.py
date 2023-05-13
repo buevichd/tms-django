@@ -1,12 +1,10 @@
 from django.db.models import Count
+from rest_framework import viewsets, filters
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from polls.models import Question, Choice
 from .serializers import QuestionSerializer, ChoiceSerializer
-
-from rest_framework import viewsets, filters
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 
 @api_view(['GET'])
@@ -36,6 +34,3 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class ChoiceViewSet(viewsets.ModelViewSet):
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
-
-
-
