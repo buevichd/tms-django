@@ -1,11 +1,16 @@
 {% extends 'shop/base.html' %}
 
 {% block body %}
-    <h1>{{ product.name }}</h1>
+    <h1>{{ product.name }} - {{ product.price }}$</h1>
     <p>{{ product.description }}</p>
     <p>Category:
         <a href="{% url 'shop:category_detail' product.category.id %}">
             {{ product.category.name }}
         </a>
     </p>
+    <form action="{% url 'shop:add_to_cart' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <input type="submit" value="Add to cart" class="btn btn-info">
+    </form>
 {% endblock %}

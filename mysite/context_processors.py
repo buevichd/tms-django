@@ -6,6 +6,8 @@ def base_template_context_processor(request):
         base_template = 'polls/base.html'
     elif next.startswith('/articles'):
         base_template = 'articles/base.html'
+    elif next.startswith('/shop'):
+        base_template = 'shop/base.html'
     else:
         base_template = None
     return {'base_template': base_template}

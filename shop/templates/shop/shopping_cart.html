@@ -1,0 +1,26 @@
+{% extends 'shop/base.html' %}
+
+{% block body %}
+
+    <h1>Shopping Cart</h1>
+
+    <ul>
+        {% for order_entry in user.profile.shopping_cart.order_entries.all %}
+            <li>
+                {{ order_entry.product.name }} -- {{ order_entry.count }} -- {{ order_entry.price }}$
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if user.profile.shopping_cart.is_empty %}
+        <i>Shopping cart is empty</i>
+    {% else %}
+        <b>Order price: {{ user.profile.shopping_cart.price }}$</b>
+
+        <form action="{% url 'shop:submit_order' %}" action="post">
+            {% csrf_token %}
+            <input type="submit" value="Submit Order" class="btn btn-primary">
+        </form>
+    {% endif %}
+
+{% endblock %}
