@@ -68,10 +68,18 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mysite.context_processors.base_template_context_processor',
             ],
         },
     },
 ]
+
+
+def my_context_processor(request):
+    # функция возвращает dict, которым будет ДОПОЛНЕН
+    # контекст, сгенерированный во view
+    return {'my_new_context_var': 12345}
+
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
