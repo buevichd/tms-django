@@ -13,7 +13,7 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     readonly_fields = ['was_published_recently']
     fieldsets = [
-        (None, {'fields': ['question_text']}),
+        (None, {'fields': ['question_text', 'view_count']}),
         ('Date information', {'fields': ['pub_date', 'was_published_recently']}),
     ]
     inlines = [ChoiceInline]

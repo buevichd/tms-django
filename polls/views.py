@@ -1,9 +1,17 @@
+from django.db.models import F
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views import generic
+from django_rq import job
 
 from .forms import QuestionForm
 from .models import Question, Choice
+
+
+@job
+def increment_question_view_count(question: Question):
+    question.view_count = F('view_count') + 1
+    question.save()
 
 
 class IndexView(generic.ListView):
@@ -19,6 +27,11 @@ class IndexView(generic.ListView):
 
 class DetailView(generic.DetailView):
     template_name = 'polls/detail.html'
+
+    def get_context_data(self, **kwargs):
+        question: Question = kwargs['object']
+        increment_question_view_count.delay(question)
+        return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         return Question.objects.filter(pub_date__lte=timezone.now())

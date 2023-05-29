@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'shop',
     'rest_framework',
     'debug_toolbar',
+    'django_rq',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -165,3 +166,11 @@ else:
             "LOCATION": "redis://127.0.0.1:6379",
         }
     }
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+    },
+}
